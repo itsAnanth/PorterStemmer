@@ -6,6 +6,7 @@ class Stemmer:
     def __init__(self):
         self.vowels = 'aeiou'
 
+    # utility function to check whether the word contains a vowel or not
     def isvowel(self, ch):
         ch = ch.lower()
 
@@ -15,13 +16,17 @@ class Stemmer:
         return True
         
     
+    # utility function to check whether the word contains a consonant or not
     def isconsonant(self, ch):
         return not self.isvowel(ch)
     
 
+
     def encode(self, word):
         return ['C' if self.isconsonant(ch) else 'V' for ch in self.group(word)]
 
+    # group consonants or vowels that are together into a single unit
+    # CCC -> C
     def group(self, word):
         groups = []
         preceeding = None
@@ -103,13 +108,18 @@ class Stemmer:
                 stem = stem[:-1]
             elif stem.endswith('ed'):
                 stem = stem[:-2]
+                if not self._chk_v(stem):
+                    stem = word
+                else:
+                    stepb2 = True
+
             elif stem.endswith("ing"):
                 stem = stem[:-3]
+                if not self._chk_v(stem):
+                    stem = word
+                else:
+                    stepb2 = True
             
-            if not self._chk_v(stem):
-                stem = word
-            else:
-                stepb2 = True
 
         if stepb2:
             if stem.endswith('at') or stem.endswith('bl') or stem.endswith('iz'):
@@ -191,4 +201,4 @@ class Stemmer:
 
 stemmer = Stemmer()
 
-print(stemmer.stem('decomission'))
+print(stemmer.stem('cunning'))
