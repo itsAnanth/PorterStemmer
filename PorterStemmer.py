@@ -103,11 +103,13 @@ class Stemmer:
                 stem = stem[:-1]
             elif stem.endswith('ed'):
                 stem = stem[:-2]
+            elif stem.endswith("ing"):
+                stem = stem[:-3]
             
-                if not self._chk_v(stem):
-                    stem = word
-                else:
-                    stepb2 = True
+            if not self._chk_v(stem):
+                stem = word
+            else:
+                stepb2 = True
 
         if stepb2:
             if stem.endswith('at') or stem.endswith('bl') or stem.endswith('iz'):
@@ -189,4 +191,4 @@ class Stemmer:
 
 stemmer = Stemmer()
 
-print(stemmer.stem('decomissioned'))
+print(stemmer.stem('decomission'))
